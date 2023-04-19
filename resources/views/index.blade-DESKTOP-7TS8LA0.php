@@ -19,6 +19,12 @@
         <div class="d-flex justify-content-between py-3">
             <div class="h4">Products</div>
             <div>
+            <form action="/products/search" method="GET">
+            <input type="search" name="search" placeholder="Search...">
+            <button type="submit">Search</button>
+           </form>
+            </div>
+            <div>
                 <a href="{{ route('products.create') }}" class="btn btn-primary">Create</a>
             </div>
         </div>
@@ -43,32 +49,21 @@
                     </tr>
                          @foreach($products as $product)
                          <tr>
-                         <td>{{ $product->id }}</td>
-                        <td>{{ $product->item_code }}</td>
-                        <td>{{ $product->name_of_goods }}</td>
-                        <td>{{ $product->catagory_item }}</td>
+                         <td>{{ $product->id}}</td>
+                        <td>{{ $product->item_code}}</td>
+                        <td>{{ $product->name_of_goods}}</td>
+                        <td>{{ $product->catagory_item}}</td>
                         <td>{{ $product->price }}</td>
                         <td>{{ $product->qty }}</td>
                         <td>
-                        <a href="{{ route('products.edit',$product->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                        <a href="#" onclick="deleteProducts({{ $product->id }})" class="btn btn-danger btn-sm">Delete</a>
-
-                        </td>
-                        </tr>
-                        
-                        <td>
-                            <form id="products-edit-action-{{ $product->id }}" action="{{ route('products.destroy',$product->id) }}" method="post">
+                        <form id="products-edit-action-{{ $product->id }}" action="{{ route('products.destroy',$product->id) }}" method="post">
+                        <a href="{{route('products.edit', $product->id)}}" class="btn btn-success">edit</a>
+                        <button type="submit" class="btn btn-danger">Delete</button>
                                 @csrf
                                 @method('delete')
                             </form>
-                        </td>
                     </tr>
                     @endforeach
-                    <tr>
-                        <td colspan="6">Record Not Found</td>
-                    </tr>
-                    
-
                 </table>
             </div>
         </div>

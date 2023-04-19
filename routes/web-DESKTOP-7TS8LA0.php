@@ -17,9 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::resource('products', ProductsController::class);
-//Route::get('/products',[ProductsController::class,'index'])->name('products.index');
-//Route::get('/products/create',[ProductsController::class,'create'])->name('products.create');
-//Route::get('/products/store',[ProductsController::class,'store'])->name('products.store');
-//Route::get('/employees/{employee}/edit',[EmployeeController::class,'edit'])->name('employees.edit');
-//Route::put('/employees/{employee}',[EmployeeController::class,'update'])->name('employees.update');
-//Route::delete('/employees/{employee}',[EmployeeController::class,'destroy'])->name('employees.destroy');
+Route::put('/edit/{id}', [App\Http\Controllers\ProductsController::class, 'update'])->name('edit');
+Route::get('/search', [App\Http\Controllers\ProductsController::class, 'search'])->name('search');
+

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Products;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class ProductsController extends Controller
 {
     /**
@@ -17,8 +17,7 @@ class ProductsController extends Controller
         $products = Products::orderBy('id','ASC')->paginate(50);
 
         return view('index',['products' => $products]);
-        //$prd = Products::all();
-        //return view('index'); 
+        
     }
 
     /**
@@ -28,7 +27,7 @@ class ProductsController extends Controller
      */
     public function create(Products $products)
     {
-       //return view(create);
+       
         return view('create', compact('products'));
     }
 
@@ -61,11 +60,11 @@ class ProductsController extends Controller
      * @param  \App\Models\Products  $products
      * @return \Illuminate\Http\Response
      */
-    public function edit($products_id)
+    public function edit(Products $products,$id)
     {
-        $products = Products::findOrFail($products_id);
-        return view('edit',['products' => $products]);
         //return view('edit', compact('products'));
+        $products=Products::find($id);
+        return view('edit',['products'=>$products]);
     }
 
     /**
@@ -75,31 +74,17 @@ class ProductsController extends Controller
      * @param  \App\Models\Products  $products
      * @return \Illuminate\Http\Response
      */
-    public function update(Products $products, Request $request)
+    public function update(Request $request,$id)
     {
-        $validator = Validator::make($request->all(),[
-            'item_code' => 'required',
-            'name_of_item' => 'required',
-            'catagory_item' => 'required',
-            'price' => 'required',
-            'qty' => 'required',
-        ]);
-            if ( $validator->passes() ) {
-                // Save data here
-                // $employee = Employee::find($id);
-                // $employee->name = $request->name;
-                // $employee->email = $request->email;
-                // $employee->address = $request->address;
-                // $employee->save();
-    
-                $employee->fill($request->post())->save();
-            } else {
-                // return with errrors
-                return redirect()->route('products.index',$products_id)->withErrors($validator)->withInput();
-            }
+        $products=Products::find($id);
+        $products->item_code=$request->input('item_code');
+        $products->name_of_goods=$request->input('name_of_goods');
+        $products->catagory_item=$request->input('catagory_item');
+        $products->price=$request->input('price');
+        $products->qty=$request->input('qty');
+        $products->save();
+        return redirect()->route('products.index');
         
-        //$products->update($request->all());
-        //return redirect()->route('proucts.index');
     }
 
     /**
@@ -108,10 +93,20 @@ class ProductsController extends Controller
      * @param  \App\Models\Products  $products
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Products $products, Request $request)
+    public function destroy($id)
     {
-        //$products = Products::findOrFail($id);
-        $products->delete();        
-        return redirect()->route('products.index')->with('success','Product deleted successfully.');
+        Products::find($id)->delete(); 
+        return redirect()->route('products.index') 
+        -> with('success', 'Goods Successfully Deleted');
+        
+    }
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $products = Products::query()
+            ->where('name_of_goods', 'LIKE', "%{$search}%")
+            ->orWhere('catagory_item', 'LIKE', "%{$search}%")
+            ->paginate(10);
+        return view('index', compact('products'));
     }
 }

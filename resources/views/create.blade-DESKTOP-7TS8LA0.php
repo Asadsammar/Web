@@ -17,7 +17,7 @@
 
     <div class="container ">
         <div class="d-flex justify-content-between py-3">
-            <div class="h4">Edit Products</div>
+            <div class="h4">Edit Product</div>
             <div>
                 <a href="{{ route('products.index') }}" class="btn btn-primary">Back</a>
             </div>
@@ -53,31 +53,10 @@
           </div>
          </div>
          </div>
-        <button class="btn btn-primary mt-3">Save Products</button>
+        <button class="btn btn-primary mt-3">Save Data</button>
     </form>
     </div>
 
     
 </body>
 </html>
-<!--
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRUD</title>
-</head>
-<body>
-    <form action="{{route ('products.store')}}" method="POST">
-        @csrf
-        <input type="text" name="item_code" placeholder="Enter Item Code"><br>
-        <input type="text" name="name_of_goods" placeholder="Enter Name Of Goods"><br>
-        <input type="text" name="catagory_item" placeholder="Enter Catagory of Item"><br>
-        <input type="text" name="price" placeholder="Enter Price"><br>
-        <input type="text" name="qty" placeholder="Enter Quantity"><br>
-        <input type="submit" value="Save Data">
-    </form>
-</body>
-</html>-->
